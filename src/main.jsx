@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { GameProvider } from './components/GameProvider';
 import Layout from './components/Layout';
 
@@ -16,7 +16,7 @@ import EndingPage from './pages/EndingPage';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <GameProvider>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route path="/start" element={<StartPage />} />
           <Route path="/intro" element={<IntroPage />} />
@@ -33,7 +33,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </GameProvider>
   </React.StrictMode>
 );
