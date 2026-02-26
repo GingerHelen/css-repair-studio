@@ -1,0 +1,238 @@
+:root{
+  --bg1:#071018;
+  --bg2:#0b1630;
+  --glass: rgba(255,255,255,0.08);
+  --glass2: rgba(255,255,255,0.10);
+  --stroke: rgba(255,255,255,0.18);
+  --stroke2: rgba(255,255,255,0.22);
+  --text: rgba(255,255,255,0.92);
+  --muted: rgba(255,255,255,0.62);
+  --accent: #4f46e5;
+  --accent2: #22c55e;
+  --danger: #ef4444;
+}
+
+*{box-sizing:border-box}
+html,body,#root{height:100%}
+button,input,select,textarea{font-family:inherit}
+body{
+  margin:0;
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  color: var(--text);
+  background: radial-gradient(80vw 60vh at 65% 18%, rgba(120,125,255,0.35), transparent 60%),
+              radial-gradient(70vw 60vh at 20% 70%, rgba(22,180,160,0.25), transparent 60%),
+              linear-gradient(180deg, var(--bg2), var(--bg1));
+}
+
+a{color:inherit;text-decoration:none}
+
+.appRoot{height:100%;display:flex;flex-direction:column}
+.topBar{
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 20px;
+  border-bottom:1px solid rgba(255,255,255,0.12);
+}
+.brand{font-size:22px;letter-spacing:.2px;color:rgba(255,255,255,0.85);font-family:'McLaren', 'Inter', ui-sans-serif, system-ui}
+.iconBtn{
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  padding:6px;
+}
+.iconCircle{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:38px;height:38px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.06);
+}
+
+.miniIconCircle{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:34px;height:34px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.06);
+}
+
+.iconImg{width:18px;height:18px;display:block}
+.navIconImg{width:18px;height:18px;display:block}
+
+.main{flex:1;display:flex;min-height:0}
+.sidebar{
+  width:240px;
+  padding:16px;
+  border-right:1px solid rgba(255,255,255,0.12);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.navItem{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:14px 14px;
+  border-radius:14px;
+  background: rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.10);
+}
+.navItem:hover{background: rgba(255,255,255,0.06)}
+.navItem.active{
+  background: rgba(79,70,229,0.18);
+  border-color: rgba(79,70,229,0.35);
+}
+.navIcon{width:22px;text-align:center;opacity:.9}
+.sideInfo{margin-top:auto;padding-top:10px}
+.sideSmall{font-size:12px;color:var(--muted);line-height:1.4}
+
+.content{flex:1;min-height:0; padding:22px 22px 28px; overflow:auto}
+
+.h1{font-size:40px;margin:0 0 14px}
+.h2{font-size:22px;margin:0 0 12px}
+.muted{color:var(--muted)}
+
+.panel{
+  background: var(--glass);
+  border: 1px solid var(--stroke);
+  border-radius: 22px;
+  padding: 18px;
+}
+.panelHeader{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  padding:18px;
+  border-radius:22px;
+  border:1px solid var(--stroke);
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.05));
+}
+
+.progressRow{display:flex;align-items:center;gap:14px;margin-top:14px}
+.progressBar{flex:1;height:12px;border-radius:999px;background:rgba(255,255,255,0.14);overflow:hidden}
+.progressFill{height:100%;background:linear-gradient(90deg, rgba(20,190,160,0.9), rgba(79,70,229,0.9));width:0%}
+
+.pill{
+  padding:8px 12px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.06);
+  font-size:13px;
+}
+
+.list{display:flex;flex-direction:column;gap:12px;margin-top:16px}
+.taskCard{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:16px;
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,0.14);
+  background: rgba(10,16,30,0.35);
+}
+.taskLeft{display:flex;align-items:center;gap:12px;min-width:0}
+.taskIcon{
+  width:42px;height:42px;
+  border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.06);
+}
+.taskTitle{font-size:16px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.taskSub{font-size:12px;color:var(--muted)}
+
+.btn{
+  border:1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  padding:10px 14px;
+  border-radius:999px;
+  cursor:pointer;
+  font-weight:600;
+}
+.btn:hover{background: rgba(255,255,255,0.08)}
+.btn.primary{border-color: rgba(79,70,229,0.45); background: rgba(79,70,229,0.22)}
+.btn.primary:hover{background: rgba(79,70,229,0.30)}
+.btn.danger{border-color: rgba(239,68,68,0.5); background: rgba(239,68,68,0.14)}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+@media (max-width: 980px){
+  .sidebar{display:none}
+  .grid2{grid-template-columns:1fr}
+}
+
+.previewCard{border-radius:18px;border:1px solid rgba(255,255,255,0.14);background: rgba(255,255,255,0.05);overflow:hidden}
+.previewHeader{padding:10px 12px;font-size:13px;color:rgba(255,255,255,.75);border-bottom:1px solid rgba(255,255,255,0.12)}
+.previewFrame{width:100%;height:250px;border:0;display:block;background:transparent}
+
+.formRow{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.select{
+  min-width:220px;
+  padding:10px 12px;
+  border-radius:14px;
+  background: rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.16);
+  color: var(--text);
+  font-weight:600;
+}
+.select.isPlaceholder{color: rgba(255,255,255,0.62)}
+.select:focus{outline:2px solid rgba(79,70,229,0.55);outline-offset:2px}
+/* В раскрывающемся списке на Windows по умолчанию белый фон: задаём читаемые цвета */
+.select option{color:#0b1320;background:#ffffff}
+.select option:disabled{color:#6b7280}
+
+.note{
+  padding:12px 14px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,0.14);
+  background: rgba(0,0,0,0.18);
+  color: rgba(255,255,255,0.80);
+  line-height:1.5;
+}
+
+.bigCenter{min-height:calc(100vh - 64px);display:flex;align-items:center;justify-content:center;padding:30px}
+.modal{
+  width:min(760px, 96vw);
+  border-radius:26px;
+  border:2px solid rgba(255,255,255,0.35);
+  background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.06));
+  box-shadow: 0 18px 70px rgba(0,0,0,0.55);
+  overflow:hidden;
+}
+.modalHeader{padding:18px 22px;font-size:34px;color:rgba(0,0,0,0.0)}
+.modalBody{padding:18px 22px}
+.modalTitle{font-size:32px;margin:0 0 10px}
+
+.input{
+  width:100%;
+  padding:12px 12px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,0.22);
+  background: rgba(10,16,30,0.25);
+  color: var(--text);
+}
+.smallHint{font-size:12px;color:rgba(255,255,255,0.6);margin-top:8px}
+
+.toast{margin-top:14px;padding:10px 12px;border-radius:14px;border:1px solid rgba(255,255,255,0.16);background:rgba(255,255,255,0.06)}
+.toast.ok{border-color:rgba(34,197,94,0.45);background:rgba(34,197,94,0.12)}
+.toast.bad{border-color:rgba(239,68,68,0.45);background:rgba(239,68,68,0.12)}
+
+
+.codeBlock{background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:14px 16px;overflow:auto;white-space:pre;}
+
+
+/* Quiz radio (selected option) */
+.quizOption { padding: 12px 14px; }
+.quizOption:hover { background: rgba(255,255,255,0.04); }
+.quizRadio { width: 22px; display:flex; align-items:center; justify-content:center; margin-top: 2px; }
+.quizRadioOuter { width: 18px; height: 18px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.55); display:flex; align-items:center; justify-content:center; transition: 160ms; }
+.quizRadioOuter .quizRadioInner { width: 12px; height: 12px; border-radius: 50%; background: transparent; transition: 160ms; }
+.quizRadioOuter.on { border-color: #8A63FF; box-shadow: 0 0 0 4px rgba(138,99,255,0.18); }
+.quizRadioOuter.on .quizRadioInner { background: #8A63FF; }
