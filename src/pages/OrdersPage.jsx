@@ -92,7 +92,7 @@ export default function OrdersPage() {
 
       {sectionSolved(state, sectionId) && sectionId < 4 && (
         <div className="toast ok">
-          Раздел закрыт. На главной автоматически откроется следующий блок.
+          Раздел закрыт. Обновите страницу, чтобы открылся следующий блок.
         </div>
       )}
 

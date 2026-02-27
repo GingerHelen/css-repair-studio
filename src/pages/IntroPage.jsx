@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { useGame } from '../components/GameProvider';
 import '../styles/app.css';
 
+
 export default function IntroPage() {
   const { state, setState } = useGame();
   const navigate = useNavigate();
-
+const base = import.meta.env.BASE_URL;
   React.useEffect(() => {
     if (!state) navigate('/start', { replace: true });
     // если уже показывали — на главную
@@ -59,7 +60,7 @@ export default function IntroPage() {
             </div>
 
             <div style={{ width: 280, flex: '0 0 auto', display: 'flex', justifyContent: 'center' }}>
-              <img src="/colleague.svg" alt="Коллега" style={{ width: '100%', maxWidth: 280, height: 'auto' }} />
+              <img src={`${base}colleague.svg`} alt="Коллега" style={{ width: '100%', maxWidth: 280, height: 'auto' }} />
             </div>
           </div>
         </div>

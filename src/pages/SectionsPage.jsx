@@ -8,7 +8,7 @@ export default function SectionsPage() {
   const { state } = useGame();
   const navigate = useNavigate();
   const unlocked = new Set(unlockedSectionIds(state));
-
+const base = import.meta.env.BASE_URL;
   return (
     <div>
       <div className="h1">Разделы</div>
@@ -22,7 +22,7 @@ export default function SectionsPage() {
             <div key={s.id} className="taskCard" style={{ opacity: isUnlocked ? 1 : 0.55 }}>
               <div className="taskLeft">
                 <div className="taskIcon" aria-hidden="true">
-                  <img className="navIconImg" src="/icons/sections.svg" alt="" />
+                  <img className="navIconImg" src={`${base}icons/sections.svg`} alt="" />
                 </div>
                 <div style={{ minWidth: 0 }}>
                   <div className="taskTitle">{s.title}</div>

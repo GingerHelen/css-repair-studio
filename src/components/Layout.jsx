@@ -8,6 +8,9 @@ export default function Layout() {
   const { state } = useGame();
   const navigate = useNavigate();
 
+  // ВАЖНО: базовый путь Vite (нужен для GitHub Pages / подпапки типа /css-repair-studio/)
+  const base = import.meta.env.BASE_URL;
+
   // Если профиля нет — на старт
   React.useEffect(() => {
     if (!state) navigate('/start', { replace: true });
@@ -23,31 +26,61 @@ export default function Layout() {
     <div className="appRoot">
       <header className="topBar">
         <div className="brand">CSS Repair Studio</div>
-        <button className="iconBtn" onClick={() => navigate('/profile')} aria-label="Профиль">
+
+        <button
+          className="iconBtn"
+          onClick={() => navigate('/profile')}
+          aria-label="Профиль"
+          type="button"
+        >
           <span className="iconCircle">
-            <img className="iconImg" src="/icons/profile.svg" alt="" aria-hidden="true" />
+            <img
+              className="iconImg"
+              src={`${base}icons/profile.svg`}
+              alt=""
+              aria-hidden="true"
+            />
           </span>
         </button>
       </header>
 
       <div className="main">
         <aside className="sidebar">
-          <NavLink className={({ isActive }) => (isActive ? 'navItem active' : 'navItem')} to="/orders">
-            <span className="navIcon" aria-hidden="true"><img className="navIconImg" src="/icons/orders.svg" alt="" /></span>
+          <NavLink
+            className={({ isActive }) => (isActive ? 'navItem active' : 'navItem')}
+            to="/orders"
+          >
+            <span className="navIcon" aria-hidden="true">
+              <img className="navIconImg" src={`${base}icons/orders.svg`} alt="" />
+            </span>
             Заказы
           </NavLink>
-          <NavLink className={({ isActive }) => (isActive ? 'navItem active' : 'navItem')} to="/profile">
-            <span className="navIcon" aria-hidden="true"><img className="navIconImg" src="/icons/profile.svg" alt="" /></span>
+
+          <NavLink
+            className={({ isActive }) => (isActive ? 'navItem active' : 'navItem')}
+            to="/profile"
+          >
+            <span className="navIcon" aria-hidden="true">
+              <img className="navIconImg" src={`${base}icons/profile.svg`} alt="" />
+            </span>
             Профиль
           </NavLink>
-          <NavLink className={({ isActive }) => (isActive ? 'navItem active' : 'navItem')} to="/sections">
-            <span className="navIcon" aria-hidden="true"><img className="navIconImg" src="/icons/sections.svg" alt="" /></span>
+
+          <NavLink
+            className={({ isActive }) => (isActive ? 'navItem active' : 'navItem')}
+            to="/sections"
+          >
+            <span className="navIcon" aria-hidden="true">
+              <img className="navIconImg" src={`${base}icons/sections.svg`} alt="" />
+            </span>
             Разделы
           </NavLink>
 
           <div className="sideInfo">
             <div className="sideSmall">Текущий раздел: {cur}</div>
-            <div className="sideSmall">Прогресс: {solved}/{total}</div>
+            <div className="sideSmall">
+              Прогресс: {solved}/{total}
+            </div>
           </div>
         </aside>
 

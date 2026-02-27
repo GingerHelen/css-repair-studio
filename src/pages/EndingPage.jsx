@@ -40,8 +40,7 @@ export default function EndingPage() {
           <div className="note" style={{ marginTop: 12 }}>
             Стажёр: <b>{state.profile.name}</b><br />
             Пройдено: <b>{totalSolved(state)}/{totalTasks()}</b><br />
-            Штрафные баллы: <b>{penalty}</b> (порог: {threshold})
-          </div>
+            Штрафные баллы: <b>{penalty}</b>           </div>
 
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: 18, gap: 12, flexWrap: 'wrap' }}>
             <button className="btn" onClick={() => navigate('/orders')}>Вернуться в меню</button>

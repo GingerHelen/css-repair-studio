@@ -8,7 +8,7 @@ export default function StartPage() {
   const { state, setState } = useGame();
   const navigate = useNavigate();
   const [name, setName] = React.useState(state?.profile?.name || '');
-
+const base = import.meta.env.BASE_URL;
   React.useEffect(() => {
     // если уже есть прогресс — отправляем на нужный стартовый экран
     if (state) {
@@ -33,7 +33,7 @@ export default function StartPage() {
           <form onSubmit={onSubmit}>
             <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
               <div className="miniIconCircle" aria-hidden="true">
-                <img className="iconImg" src="/icons/profile.svg" alt="" />
+                <img className="iconImg" src={`${base}icons/profile.svg`} alt="" />
               </div>
               <input
                 className="input"

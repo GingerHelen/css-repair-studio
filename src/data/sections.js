@@ -44,45 +44,28 @@ h1, h2, h3 { letter-spacing: .2px; }`,
             code: `.btn:hover { transform: translateY(-1px); }
 input:focus { outline: 2px solid rgba(255,255,255,.35); }`,
           },
+          {
+            subtitle: 'Практика под наши заказы: “только внутри блока”',
+            text:
+              'Во многих заказах задача — применить стиль не “везде”, а только внутри конкретного контейнера. ' +
+              'Для этого используем вложенные селекторы с пробелом: .card .title, .card img, .list .active, .menu li. ' +
+              'Селектор без контейнера (.title, img, .active) почти всегда сломает элементы вне нужного блока.',
+            code: `.card .title { font-weight: 700; }
+.card img { border-radius: 16px; }
+.list .active { font-weight: 700; }
+.menu li { color: #111827; }`,
+          },
         ],
       },
       questions: [
-        {
-          q: 'Как выбрать элемент по классу card?',
-          options: ['#card', '.card', 'card', 'div#card'],
-          correctIndex: 1
-        },
-        {
-          q: 'Как выбрать элемент по идентификатору header?',
-          options: ['.header', '#header', 'header', 'div.header'],
-          correctIndex: 1
-        },
-        {
-          q: 'Как выбрать элемент li, который является прямым потомком ul?',
-          options: ['ul li', 'ul > li', 'li > ul', 'ul + li'],
-          correctIndex: 1
-        },
-        {
-          q: 'Какой селектор выберет все элементы p внутри div?',
-          options: ['div + p', 'div > p', 'div p', 'p div'],
-          correctIndex: 2
-        },
-        {
-          q: 'Как выбрать элемент с классом active внутри элемента с классом menu?',
-          options: ['.menu.active', '.menu > .active', '.menu .active', '.active .menu'],
-          correctIndex: 2
-        },
-        {
-          q: 'Как выбрать все элементы на странице?',
-          options: ['html', 'body', '*', 'all'],
-          correctIndex: 2
-        },
-        {
-          q: 'Какой селектор выберет элемент с классом button, если он находится внутри div?',
-          options: ['.button div', 'div .button', 'div div.button', 'button div'],
-          correctIndex: 1
-        }
-      ]
+        { q: 'Как выбрать элемент по классу card?', options: ['#card', '.card', 'card', 'div#card'], correctIndex: 1 },
+        { q: 'Как выбрать элемент по идентификатору header?', options: ['.header', '#header', 'header', 'div.header'], correctIndex: 1 },
+        { q: 'Как выбрать элемент li, который является прямым потомком ul?', options: ['ul li', 'ul > li', 'li > ul', 'ul + li'], correctIndex: 1 },
+        { q: 'Какой селектор выберет все элементы p внутри div?', options: ['div + p', 'div > p', 'div p', 'p div'], correctIndex: 2 },
+        { q: 'Как выбрать элемент с классом active внутри элемента с классом menu?', options: ['.menu.active', '.menu > .active', '.menu .active', '.active .menu'], correctIndex: 2 },
+        { q: 'Как выбрать все элементы на странице?', options: ['html', 'body', '*', 'all'], correctIndex: 2 },
+        { q: 'Какой селектор выберет элемент с классом button, если он находится внутри div?', options: ['.button div', 'div .button', 'div div.button', 'button div'], correctIndex: 1 },
+      ],
     },
     orders: [
       {
@@ -90,15 +73,16 @@ input:focus { outline: 2px solid rgba(255,255,255,.35); }`,
         title: 'Заголовок внутри карточки стал обычным',
         context: 'Заголовок внутри карточки товара должен быть жирным, но стиль почему-то не применяется.',
         type: 'selector',
-        html: `<div class="card"><h3 class="card__title">Название товара</h3></div>`,
+        html: `<div class="card"><h3 class="title">Название товара</h3></div>`,
+        // ✅ Исправлено: targetCSS теперь соответствует HTML и правильному селектору
         targetCSS: `.card{padding:16px;border-radius:16px;border:1px solid rgba(255,255,255,.25);max-width:320px}
-.card__title{font-weight:700;margin:0;font-size:20px}`,
+.card .title{font-weight:700;margin:0;font-size:20px}`,
         brokenCSS: `.card{padding:16px;border-radius:16px;border:1px solid rgba(255,255,255,.25);max-width:320px}
-.wrong{font-weight:700;}`,
+.card .title{font-weight:300;}`,
         promptCSS: `{ font-weight: 700; }`,
         selectorOptions: ['.title', '.card__title', '.card .title', 'h3'],
-        correct: { selector: '.card__title' },
-        fixCSS: `.card__title{font-weight:700;}`
+        correct: { selector: '.card .title' },
+        fixCSS: `.card .title{font-weight:700;}`,
       },
       {
         id: '1-2',
@@ -115,7 +99,7 @@ input:focus { outline: 2px solid rgba(255,255,255,.35); }`,
         promptCSS: `{ color: #9ca3af; }`,
         selectorOptions: ['.text', '.card .text', '.card.text', 'div .text'],
         correct: { selector: '.card .text' },
-        fixCSS: `.card .text{color:#9ca3af;}`
+        fixCSS: `.card .text{color:#9ca3af;}`,
       },
       {
         id: '1-3',
@@ -132,7 +116,7 @@ input:focus { outline: 2px solid rgba(255,255,255,.35); }`,
         promptCSS: `{ background-color: #4f46e5; }`,
         selectorOptions: ['.button', '.footer .button', '.card.button', '.card > .button'],
         correct: { selector: '.footer .button' },
-        fixCSS: `.footer .button{background:#4f46e5;}`
+        fixCSS: `.footer .button{background:#4f46e5;}`,
       },
       {
         id: '1-4',
@@ -151,7 +135,7 @@ li{color:#fff;padding:8px 10px;border-radius:10px;margin:6px 0;border:1px solid 
         promptCSS: `{ color: #111827; }`,
         selectorOptions: ['li', '.menu li', 'ul li', '.menu > ul > li'],
         correct: { selector: '.menu li' },
-        fixCSS: `.menu li{color:#111827;}`
+        fixCSS: `.menu li{background-color:white; color:#111827}`,
       },
       {
         id: '1-5',
@@ -168,7 +152,7 @@ img{border-radius:0;display:block;margin-top:8px}`,
         promptCSS: `{ border-radius: 16px; }`,
         selectorOptions: ['img', '.card img', '.card > img', '.card.image'],
         correct: { selector: '.card img' },
-        fixCSS: `.card img{border-radius:16px;}`
+        fixCSS: `.card img{border-radius:16px;}`,
       },
       {
         id: '1-6',
@@ -185,10 +169,11 @@ img{border-radius:0;display:block;margin-top:8px}`,
         promptCSS: `{ font-weight: 700; }`,
         selectorOptions: ['.active', '.list .active', 'ul.active', '.active .list'],
         correct: { selector: '.list .active' },
-        fixCSS: `.list .active{font-weight:700;}`
-      }
-    ]
+        fixCSS: `.list .active{font-weight:700;}`,
+      },
+    ],
   },
+
   {
     id: 2,
     title: 'Раздел 2. Box Model',
@@ -202,29 +187,52 @@ img{border-radius:0;display:block;margin-top:8px}`,
           {
             subtitle: 'Что такое Box Model',
             text:
-              'Любой элемент на странице — это прямоугольник: content → padding → border → margin. ' +
-              'В заказах Box Model чаще всего ломается из‑за неверных margin/padding, границ или размеров.',
+              'Любой элемент — это прямоугольник: content → padding → border → margin. ' +
+              'Ошибки в заказах чаще всего из-за неверных отступов и рамок.',
           },
           {
-            subtitle: 'margin vs padding',
+            subtitle: 'Padding и Margin: как не перепутать',
             text:
-              'Padding — внутренний отступ (внутри рамки). Margin — внешний (снаружи). ' +
-              'Если “карточка прижалась” — чаще виноват padding. Если “всё съехало и нет воздуха” — чаще margin.',
-            code: `.card { padding: 16px; margin: 12px 0; }`,
+              'padding — внутренний отступ (внутри рамки, “воздух” вокруг текста). ' +
+              'margin — внешний отступ (расстояние между блоками).',
+            code: `.card { padding: 16px; }   /* внутри карточки */
+.card { margin-bottom: 16px; } /* между карточками */`,
           },
           {
-            subtitle: 'box-sizing: border-box',
+            subtitle: 'Шорткаты отступов (важно для задания с кнопкой)',
             text:
-              'По умолчанию width/height считают только content. Из‑за этого элементы могут “расползаться”. ' +
-              'border-box делает так, что в ширину включаются padding и border — и макеты становятся предсказуемее.',
+              'Отступы можно задавать сокращённо: padding: 0 14px означает сверху/снизу 0, слева/справа 14px. ' +
+              'Так ты делаешь кнопку “объёмной” по горизонтали.',
+            code: `.button { padding: 0 14px; }`,
+          },
+          {
+            subtitle: 'Border: толщина рамки и как её чинить',
+            text:
+              'Рамка задаётся свойством border. Толщина отдельно — border-width. ' +
+              'Если рамка “слишком толстая” — чаще всего нужно уменьшить border-width.',
+            code: `.card { border: 1px solid rgba(255,255,255,.3); }
+.card { border-width: 1px; }`,
+          },
+          {
+            subtitle: 'box-sizing: почему блок “вылазит” за контейнер',
+            text:
+              'По умолчанию (content-box) ширина width не включает padding и border. ' +
+              'Поэтому блок может стать шире, чем контейнер. border-box делает поведение предсказуемым.',
             code: `* { box-sizing: border-box; }
-.panel { width: 320px; padding: 16px; border: 1px solid rgba(255,255,255,.25); }`,
+.card { width: 100%; padding: 16px; box-sizing: border-box; }`,
           },
           {
-            subtitle: 'Типичные ошибки',
+            subtitle: 'gap: расстояние между элементами в строке',
             text:
-              '1) Забыли единицы измерения (px, rem, %). 2) Путают margin/padding. 3) Ставят фиксированную высоту и ломают адаптив. ' +
-              '4) Используют огромные отрицательные отступы.',
+              'gap работает во flex/grid контейнерах и создаёт расстояние между элементами. ' +
+              'Это удобнее, чем ставить margin каждому элементу.',
+            code: `.row { display: flex; gap: 8px; }`,
+          },
+          {
+            subtitle: 'Частые ошибки (чтобы не терять баллы)',
+            text:
+              '1) Путают padding и margin. 2) Забывают единицы (px). 3) Чинят не тот селектор. ' +
+              '4) Пытаются “лечить” отступы через height/line-height — это не про box model.',
           },
         ],
       },
@@ -235,8 +243,8 @@ img{border-radius:0;display:block;margin-top:8px}`,
         { q: 'Какое значение box-sizing включает padding и border в общую ширину элемента?', options: ['content-box', 'border-box', 'inherit', 'auto'], correctIndex: 1 },
         { q: 'Что произойдёт при width: 200px и padding: 20px при box-sizing: content-box?', options: ['Ширина останется 200px', 'Станет 220px', 'Станет 240px', 'Станет 160px'], correctIndex: 2 },
         { q: 'Какое свойство управляет расстоянием между элементами во flex/grid-контейнере?', options: ['margin', 'padding', 'gap', 'spacing'], correctIndex: 2 },
-        { q: 'Какое свойство полностью убирает рамку у элемента?', options: ['border: none', 'border-width: 0', 'outline: none', 'frame: 0'], correctIndex: 0 }
-      ]
+        { q: 'Какое свойство полностью убирает рамку у элемента?', options: ['border: none', 'border-width: 0', 'outline: none', 'frame: 0'], correctIndex: 0 },
+      ],
     },
     orders: [
       {
@@ -253,7 +261,7 @@ img{border-radius:0;display:block;margin-top:8px}`,
         propertyOptions: ['margin', 'padding', 'gap'],
         valueOptions: ['16px', '0', '4px'],
         correct: { selector: '.card', property: 'padding', value: '16px' },
-        fixCSS: `.card{padding:16px;}`
+        fixCSS: `.card{padding:16px;}`,
       },
       {
         id: '2-2',
@@ -269,7 +277,7 @@ img{border-radius:0;display:block;margin-top:8px}`,
         propertyOptions: ['padding-bottom', 'margin-bottom', 'gap'],
         valueOptions: ['16px', '0', '4px'],
         correct: { selector: '.card', property: 'margin-bottom', value: '16px' },
-        fixCSS: `.card{margin-bottom:16px;}`
+        fixCSS: `.card{margin-bottom:16px;}`,
       },
       {
         id: '2-3',
@@ -285,7 +293,7 @@ img{border-radius:0;display:block;margin-top:8px}`,
         propertyOptions: ['box-sizing', 'overflow', 'max-width'],
         valueOptions: ['border-box', 'content-box', 'hidden'],
         correct: { selector: '.card', property: 'box-sizing', value: 'border-box' },
-        fixCSS: `.card{box-sizing:border-box;}`
+        fixCSS: `.card{box-sizing:border-box;}`,
       },
       {
         id: '2-4',
@@ -299,7 +307,7 @@ img{border-radius:0;display:block;margin-top:8px}`,
         propertyOptions: ['padding', 'margin', 'line-height'],
         valueOptions: ['0 14px', '14px', '0'],
         correct: { selector: '.button', property: 'padding', value: '0 14px' },
-        fixCSS: `.button{padding:0 14px;}`
+        fixCSS: `.button{padding:0 14px;}`,
       },
       {
         id: '2-5',
@@ -313,7 +321,7 @@ img{border-radius:0;display:block;margin-top:8px}`,
         propertyOptions: ['border-width', 'outline-width', 'padding'],
         valueOptions: ['1px', '2px', '4px'],
         correct: { selector: '.card', property: 'border-width', value: '1px' },
-        fixCSS: `.card{border-width:1px;}`
+        fixCSS: `.card{border-width:1px;}`,
       },
       {
         id: '2-6',
@@ -329,10 +337,11 @@ img{border-radius:0;display:block;margin-top:8px}`,
         propertyOptions: ['gap', 'margin-right', 'padding'],
         valueOptions: ['8px', '0', '2px'],
         correct: { selector: '.row', property: 'gap', value: '8px' },
-        fixCSS: `.row{gap:8px;}`
-      }
-    ]
+        fixCSS: `.row{gap:8px;}`,
+      },
+    ],
   },
+
   {
     id: 3,
     title: 'Раздел 3. Flexbox',
@@ -346,29 +355,61 @@ img{border-radius:0;display:block;margin-top:8px}`,
           {
             subtitle: 'Когда нужен Flexbox',
             text:
-              'Flexbox — лучший инструмент, когда элементы должны стоять в ряд/колонку, выравниваться по центру, ' +
-              'распределяться с одинаковыми промежутками и красиво “перетекать” при изменении ширины.',
+              'Flexbox помогает выстроить элементы в ряд или колонку, выровнять их и задать расстояния между ними.',
           },
           {
-            subtitle: 'Контейнер и элементы',
+            subtitle: 'Включение Flex: контейнер и элементы',
             text:
-              'Flexbox включается на контейнере: display:flex. Дальше управляем направлением, выравниванием и переносом.',
-            code: `.row { display: flex; gap: 12px; }
-.row { justify-content: space-between; align-items: center; }`,
+              'Flex включается на контейнере: display: flex. Дальше управляешь расположением дочерних элементов.',
+            code: `.row { display: flex; }`,
           },
           {
-            subtitle: 'justify-content и align-items',
+            subtitle: 'Оси: главная и поперечная (это решает половину задач)',
             text:
-              'justify-content — вдоль главной оси, align-items — поперёк. Если элементы “не по центру” — проверь, что ты не перепутала оси.',
-            code: `.toolbar { display:flex; justify-content: center; align-items: center; }`,
+              'Главная ось зависит от flex-direction. При row главная ось — горизонталь, поперечная — вертикаль. ' +
+              'justify-content работает по главной оси, align-items — по поперечной.',
+            code: `.toolbar{
+  display:flex;
+  justify-content: space-between; /* по горизонтали при row */
+  align-items: center;            /* по вертикали при row */
+}`,
           },
           {
-            subtitle: 'flex-grow / shrink / basis',
+            subtitle: 'align-items: выравнивание по вертикали в строке',
             text:
-              'flex: 1 заставляет элемент занимать свободное пространство. basis задаёт базовый размер. ' +
-              'В заказах часто “сжимается” не тот блок — значит неправильно настроены flex свойства.',
-            code: `.left { flex: 0 0 240px; }
-.right { flex: 1; }`,
+              'Если иконка и текст “криво стоят” — почти всегда нужно align-items: center на контейнере.',
+            code: `.row { display:flex; align-items: center; }`,
+          },
+          {
+            subtitle: 'justify-content: распределение по краям',
+            text:
+              'space-between раздвигает элементы к краям контейнера. Это нужно, когда “кнопки не разъезжаются”.',
+            code: `.actions{ display:flex; justify-content: space-between; }`,
+          },
+          {
+            subtitle: 'flex-direction: row vs column (задача “должно быть колонкой”)',
+            text:
+              'row — элементы в ряд, column — элементы сверху вниз (колонкой).',
+            code: `.stack{ display:flex; flex-direction: column; gap: 8px; }`,
+          },
+          {
+            subtitle: 'gap: расстояние между элементами',
+            text:
+              'gap задаёт расстояние между flex-элементами. Это ровно задача “слишком плотно”.',
+            code: `.row{ display:flex; gap: 12px; }`,
+          },
+          {
+            subtitle: 'flex-wrap: перенос на новую строку',
+            text:
+              'По умолчанию nowrap — всё пытается уместиться в одну строку. ' +
+              'wrap разрешает перенос на следующую строку. Это задача “теги уезжают за экран”.',
+            code: `.tags{ display:flex; flex-wrap: wrap; gap: 8px; }`,
+          },
+          {
+            subtitle: 'Мини-шпаргалка под заказы',
+            text:
+              'Не по центру → align-items. Не разъехались → justify-content. Надо колонку → flex-direction: column. ' +
+              'Плотно → gap. Уезжает за экран → flex-wrap: wrap.',
           },
         ],
       },
@@ -379,8 +420,8 @@ img{border-radius:0;display:block;margin-top:8px}`,
         { q: 'Какое свойство выравнивает элементы по поперечной оси?', options: ['justify-content', 'align-items', 'align-self', 'line-height'], correctIndex: 1 },
         { q: 'Какое значение flex-direction расположит элементы в колонку сверху вниз?', options: ['row', 'row-reverse', 'column', 'column-reverse'], correctIndex: 2 },
         { q: 'Какое свойство отвечает за перенос flex-элементов на новую строку?', options: ['flex-flow', 'flex-wrap', 'white-space', 'overflow'], correctIndex: 1 },
-        { q: 'Какое свойство управляет расстоянием между элементами во flex-контейнере?', options: ['margin', 'padding', 'gap', 'spacing'], correctIndex: 2 }
-      ]
+        { q: 'Какое свойство управляет расстоянием между элементами во flex-контейнере?', options: ['margin', 'padding', 'gap', 'spacing'], correctIndex: 2 },
+      ],
     },
     orders: [
       {
@@ -397,7 +438,7 @@ img{border-radius:0;display:block;margin-top:8px}`,
         propertyOptions: ['align-items', 'justify-content', 'flex-wrap'],
         valueOptions: ['center', 'flex-start', 'space-between'],
         correct: { selector: '.row', property: 'align-items', value: 'center' },
-        fixCSS: `.row{align-items:center;}`
+        fixCSS: `.row{align-items:center;}`,
       },
       {
         id: '3-2',
@@ -415,7 +456,7 @@ img{border-radius:0;display:block;margin-top:8px}`,
         propertyOptions: ['justify-content', 'align-items', 'flex-direction'],
         valueOptions: ['space-between', 'center', 'flex-start'],
         correct: { selector: '.actions', property: 'justify-content', value: 'space-between' },
-        fixCSS: `.actions{justify-content:space-between;}`
+        fixCSS: `.actions{justify-content:space-between;}`,
       },
       {
         id: '3-3',
@@ -431,7 +472,7 @@ img{border-radius:0;display:block;margin-top:8px}`,
         propertyOptions: ['flex-direction', 'justify-content', 'align-items'],
         valueOptions: ['column', 'row', 'row-reverse'],
         correct: { selector: '.stack', property: 'flex-direction', value: 'column' },
-        fixCSS: `.stack{flex-direction:column;}`
+        fixCSS: `.stack{flex-direction:column;}`,
       },
       {
         id: '3-4',
@@ -447,7 +488,7 @@ img{border-radius:0;display:block;margin-top:8px}`,
         propertyOptions: ['gap', 'margin', 'padding'],
         valueOptions: ['12px', '0', '4px'],
         correct: { selector: '.row', property: 'gap', value: '12px' },
-        fixCSS: `.row{gap:12px;}`
+        fixCSS: `.row{gap:12px;}`,
       },
       {
         id: '3-5',
@@ -463,7 +504,7 @@ img{border-radius:0;display:block;margin-top:8px}`,
         propertyOptions: ['align-items', 'justify-content', 'flex-wrap'],
         valueOptions: ['center', 'stretch', 'flex-start'],
         correct: { selector: '.header', property: 'align-items', value: 'center' },
-        fixCSS: `.header{align-items:center;}`
+        fixCSS: `.header{align-items:center;}`,
       },
       {
         id: '3-6',
@@ -479,10 +520,11 @@ img{border-radius:0;display:block;margin-top:8px}`,
         propertyOptions: ['flex-wrap', 'flex-direction', 'overflow'],
         valueOptions: ['wrap', 'nowrap', 'hidden'],
         correct: { selector: '.tags', property: 'flex-wrap', value: 'wrap' },
-        fixCSS: `.tags{flex-wrap:wrap;}`
-      }
-    ]
+        fixCSS: `.tags{flex-wrap:wrap;}`,
+      },
+    ],
   },
+
   {
     id: 4,
     title: 'Раздел 4. Тексты и визуальный стиль',
@@ -494,33 +536,50 @@ img{border-radius:0;display:block;margin-top:8px}`,
         title: 'Тексты и визуальный стиль: читаемость, акценты, кнопки',
         blocks: [
           {
-            subtitle: 'Типографика',
+            subtitle: 'Иерархия текста: заголовок vs основной текст',
             text:
-              'Хорошая типографика делает интерфейс “дороже”: правильные размеры, высота строки, контраст и отступы. ' +
-              'Если “заголовок кричит” — часто виноват font-size, font-weight или line-height.',
-            code: `.title { font-size: 22px; font-weight: 700; line-height: 1.2; }`,
+              'Заголовок должен отличаться от основного текста: обычно больше размер и/или выше font-weight. ' +
+              'Если заголовок “не выделяется” — проверь font-weight.',
+            code: `.title{ font-size: 22px; font-weight: 700; }
+.text{ font-size: 14px; font-weight: 400; }`,
           },
           {
-            subtitle: 'Цвет и контраст',
+            subtitle: 'line-height: “воздух” между строками (задача 4-1)',
             text:
-              'Текст должен читаться на фоне. Для вторичного текста используют сниженный контраст (например, rgba(255,255,255,.7)). ' +
-              'Но если снизить слишком сильно — он “пропадёт”.',
-            code: `.muted { color: rgba(255,255,255,.72); }`,
+              'line-height управляет межстрочным интервалом. Если текст “сжатый” — увеличь line-height (например 1.6).',
+            code: `.description{ line-height: 1.6; }`,
           },
           {
-            subtitle: 'Кнопки и состояния',
+            subtitle: 'Цвет текста: HEX, RGB, RGBA (задача про ошибку)',
             text:
-              'Кнопка должна иметь нормальный padding, радиус, hover/focus. ' +
-              'Если hover “не работает” — проверь селектор :hover и где он прописан.',
-            code: `.btn { padding: 12px 16px; border-radius: 14px; }
-.btn:hover { filter: brightness(1.06); }`,
+              'Цвет задаётся свойством color. Можно использовать HEX (#e53935), RGB или RGBA. ' +
+              'HEX — самый частый вариант в макетах.',
+            code: `.error{ color: #e53935; } /* заметная ошибка */
+.muted{ color: rgba(255,255,255,.7); }`,
           },
           {
-            subtitle: 'Тени и границы',
+            subtitle: 'text-align: выравнивание текста (задача 4-4)',
             text:
-              'Тени и границы помогают отделять блоки. Но сильная тень или слишком толстая граница выглядят грубо. ' +
-              'Держи эффект мягким (rgba и небольшие blur).',
-            code: `.card { border: 1px solid rgba(255,255,255,.18); box-shadow: 0 20px 60px rgba(0,0,0,.35); }`,
+              'text-align выравнивает текст внутри блока: left / center / right / justify.',
+            code: `.text{ text-align: left; }`,
+          },
+          {
+            subtitle: 'text-transform: регистр (задача 4-5)',
+            text:
+              'text-transform меняет регистр: uppercase — все буквы заглавные, none — без изменений.',
+            code: `.title{ text-transform: uppercase; }`,
+          },
+          {
+            subtitle: 'text-decoration: подчёркивание ссылок (задача 4-6)',
+            text:
+              'Ссылки часто по умолчанию подчёркнуты. Чтобы убрать — text-decoration: none.',
+            code: `.link{ text-decoration: none; }`,
+          },
+          {
+            subtitle: 'letter-spacing (в тесте спрашивается)',
+            text:
+              'letter-spacing — расстояние между буквами. Обычно его делают небольшим, чтобы заголовки выглядели аккуратнее.',
+            code: `.title{ letter-spacing: .2px; }`,
           },
         ],
       },
@@ -530,8 +589,8 @@ img{border-radius:0;display:block;margin-top:8px}`,
         { q: 'Какое свойство изменяет расстояние между строками текста?', options: ['letter-spacing', 'line-height', 'text-align', 'font-size'], correctIndex: 1 },
         { q: 'Какое свойство отвечает за выравнивание текста по центру/левому/правому краю?', options: ['vertical-align', 'justify-content', 'text-align', 'align-items'], correctIndex: 2 },
         { q: 'Какое свойство управляет расстоянием между буквами?', options: ['word-spacing', 'line-height', 'letter-spacing', 'font-stretch'], correctIndex: 2 },
-        { q: 'Какое свойство чаще всего используют для задания цвета текста?', options: ['background-color', 'color', 'text-color', 'fill'], correctIndex: 1 }
-      ]
+        { q: 'Какое свойство чаще всего используют для задания цвета текста?', options: ['background-color', 'color', 'text-color', 'fill'], correctIndex: 1 },
+      ],
     },
     orders: [
       {
@@ -546,21 +605,24 @@ img{border-radius:0;display:block;margin-top:8px}`,
         propertyOptions: ['line-height', 'letter-spacing', 'font-size'],
         valueOptions: ['1', '1.4', '1.6'],
         correct: { selector: '.description', property: 'line-height', value: '1.6' },
-        fixCSS: `.description{line-height:1.6;}`
+        fixCSS: `.description{line-height:1.6;}`,
       },
       {
         id: '4-2',
         title: 'Заголовок не выделяется',
-        context: 'Заголовок не отличается от основного текста.',
+        context: 'Заголовок не отличается от основного текста, должно быть полужирное начертание.',
         type: 'triple',
-        html: `<h3 class="card__title">Личный кабинет</h3>`,
-        targetCSS: `.card__title{font-weight:600;margin:0}`,
-        brokenCSS: `.card__title{font-weight:400;margin:0}`,
+        html: `<h3 class="card__title">Личный кабинет</h3>
+<p class="text">Для входа в личный кабинет нужно ввести логин и пароль</p>`,
+        targetCSS: `.card__title{font-weight:700;margin:0}
+.text{font-weight:400;margin:0}`,
+        brokenCSS: `.card__title{font-weight:400;margin:0}
+.text{font-weight:400;margin:0}`,
         selectorOptions: ['.card__title', '.title', 'h3'],
         propertyOptions: ['font-weight', 'font-size', 'text-align'],
-        valueOptions: ['400', '500', '600'],
-        correct: { selector: '.card__title', property: 'font-weight', value: '600' },
-        fixCSS: `.card__title{font-weight:600;}`
+        valueOptions: ['100', '400', '700'],
+        correct: { selector: '.card__title', property: 'font-weight', value: '700' },
+        fixCSS: `.card__title{font-weight:700;}`,
       },
       {
         id: '4-3',
@@ -574,21 +636,21 @@ img{border-radius:0;display:block;margin-top:8px}`,
         propertyOptions: ['color', 'opacity', 'font-weight'],
         valueOptions: ['#e53935', '#999999', '0.5'],
         correct: { selector: '.error', property: 'color', value: '#e53935' },
-        fixCSS: `.error{color:#e53935;}`
+        fixCSS: `.error{color:#e53935;}`,
       },
       {
         id: '4-4',
         title: 'Текст должен быть выровнен слева',
         context: 'Текст должен быть выровнен слева.',
         type: 'triple',
-        html: `<p class="text">Текст с визуально неровным выравниванием</p>`,
+        html: `<p class="text">Текст выравнен неправильно</p>`,
         targetCSS: `.text{text-align:left;max-width:520px}`,
-        brokenCSS: `.text{text-align:justify;max-width:520px}`,
+        brokenCSS: `.text{text-align:center;max-width:520px}`,
         selectorOptions: ['.text', '.description', '.title'],
         propertyOptions: ['text-align', 'line-height', 'letter-spacing'],
         valueOptions: ['left', 'center', 'justify'],
         correct: { selector: '.text', property: 'text-align', value: 'left' },
-        fixCSS: `.text{text-align:left;}`
+        fixCSS: `.text{text-align:left;}`,
       },
       {
         id: '4-5',
@@ -602,7 +664,7 @@ img{border-radius:0;display:block;margin-top:8px}`,
         propertyOptions: ['text-transform', 'letter-spacing', 'font-size'],
         valueOptions: ['uppercase', 'capitalize', 'none'],
         correct: { selector: '.title', property: 'text-transform', value: 'uppercase' },
-        fixCSS: `.title{text-transform:uppercase;}`
+        fixCSS: `.title{text-transform:uppercase;}`,
       },
       {
         id: '4-6',
@@ -616,8 +678,8 @@ img{border-radius:0;display:block;margin-top:8px}`,
         propertyOptions: ['color', 'text-decoration', 'font-weight'],
         valueOptions: ['underline', 'none', '#2979ff'],
         correct: { selector: '.link', property: 'text-decoration', value: 'none' },
-        fixCSS: `.link{text-decoration:none;}`
-      }
-    ]
-  }
+        fixCSS: `.link{text-decoration:none;}`,
+      },
+    ],
+  },
 ];

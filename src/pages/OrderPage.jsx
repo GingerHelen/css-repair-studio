@@ -11,11 +11,77 @@ function Select({ value, onChange, options, placeholder }) {
       value={value ?? ''}
       onChange={(e) => onChange(e.target.value || null)}
     >
-      <option value="" disabled>{placeholder}</option>
+      <option value="" disabled>
+        {placeholder}
+      </option>
       {options.map((o) => (
-        <option key={o} value={o}>{o}</option>
+        <option key={o} value={o}>
+          {o}
+        </option>
       ))}
     </select>
+  );
+}
+
+/**
+ * Форматируем HTML:
+ * - режем длинные data URI
+ * - вставляем переносы между тегами
+ */
+function formatHtmlForDisplay(html) {
+  if (!html) return '';
+
+  let s = String(html);
+
+  // обрезаем длинные data URI
+  s = s.replace(
+    /(src\s*=\s*["']data:[^"']{120})[^"']*(["'])/gi,
+    (_, prefix, quote) => `${prefix}…${quote}`
+  );
+
+  // переносы между тегами
+  s = s.replace(/></g, '>\n<');
+
+  return s.trim();
+}
+
+function HtmlPanel({ html }) {
+  const pretty = React.useMemo(() => formatHtmlForDisplay(html), [html]);
+
+  return (
+    <div className="note" style={{ marginTop: 14 }}>
+      <div style={{ fontWeight: 600 }}>HTML клиента:</div>
+
+      <div
+        style={{
+          marginTop: 10,
+          borderRadius: 14,
+          border: '1px solid rgba(255,255,255,.16)',
+          background: 'rgba(0,0,0,.22)',
+          padding: 12,
+          overflow: 'auto',
+          maxHeight: 140,
+        }}
+      >
+        <pre
+          style={{
+            margin: 0,
+            fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+            fontSize: 12.5,
+            lineHeight: 1.45,
+            whiteSpace: 'pre-wrap',
+            wordBreak: 'break-word',
+            overflowWrap: 'anywhere',
+          }}
+        >
+          {pretty}
+        </pre>
+      </div>
+
+      <div className="muted" style={{ marginTop: 8 }}>
+        Это HTML, к которому ты пишешь селекторы.
+      </div>
+    </div>
   );
 }
 
@@ -31,7 +97,7 @@ export default function OrderPage() {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if (!section || !order || !state.progress[sid].testPassed) {
+    if (!section || !order || !state.progress[sid]?.testPassed) {
       navigate(`/orders?section=${sid}`, { replace: true });
     }
   }, [section, order, state, sid, navigate]);
@@ -46,7 +112,6 @@ export default function OrderPage() {
   const [val, setVal] = React.useState(null);
   const [toast, setToast] = React.useState(null);
 
-  // Патч показываем только после проверки. Если задание уже решено — показываем починку сразу.
   const [applied, setApplied] = React.useState(isSolved);
   const [appliedCSS, setAppliedCSS] = React.useState(isSolved ? order.fixCSS : '');
 
@@ -77,7 +142,6 @@ export default function OrderPage() {
   function generatePatchCSS() {
     if (order.type === 'selector') {
       if (!selector) return '';
-      // promptCSS выглядит как `{ ... }`
       return `${selector}${order.promptCSS}`;
     }
     if (!selector || !prop || !val) return '';
@@ -88,7 +152,11 @@ export default function OrderPage() {
     if (order.type === 'selector') {
       return selector === order.correct.selector;
     }
-    return selector === order.correct.selector && prop === order.correct.property && val === order.correct.value;
+    return (
+      selector === order.correct.selector &&
+      prop === order.correct.property &&
+      val === order.correct.value
+    );
   }
 
   function onCheck() {
@@ -101,7 +169,7 @@ export default function OrderPage() {
     }
 
     const patch = generatePatchCSS();
-    // Показываем результат выбранного варианта (даже если он неверный) — только после «Проверить»
+
     setApplied(true);
     setAppliedCSS(patch);
 
@@ -111,27 +179,40 @@ export default function OrderPage() {
       setTimeout(() => setToast(null), 1300);
     } else {
       addPenalty();
-      setToast({ type: 'bad', text: 'Не то. Штраф +1. Посмотри результат и попробуй другой вариант.' });
+      setToast({ type: 'bad', text: 'Не то. Штраф +1. Попробуй другой вариант.' });
       setTimeout(() => setToast(null), 1500);
     }
   }
 
-  const currentCSS = order.brokenCSS + (applied ? `
+  const currentCSS =
+    order.brokenCSS +
+    (applied
+      ? `
 /* PATCH */
-${appliedCSS}` : '');
+${appliedCSS}`
+      : '');
 
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
         <div>
-          <div className="h1" style={{ marginBottom: 8 }}>{order.title}</div>
-          <div className="muted">Раздел {sid} · Заказ {idx + 1}/{section.orders.length}</div>
+          <div className="h1" style={{ marginBottom: 8 }}>
+            {order.title}
+          </div>
+          <div className="muted">
+            Раздел {sid} · Заказ {idx + 1}/{section.orders.length}
+          </div>
         </div>
-        <div className="pill">Штраф&nbsp; <b>{state.profile.penalty}</b></div>
+        <div className="pill">
+          Штраф&nbsp; <b>{state.profile.penalty}</b>
+        </div>
       </div>
 
       <div className="panel" style={{ marginTop: 14 }}>
         <div className="note">{order.context}</div>
+
+        {/* HTML клиента */}
+        <HtmlPanel html={order.html} />
 
         <div className="grid2" style={{ marginTop: 14 }}>
           <PreviewFrame title="Целевой макет" html={order.html} css={order.targetCSS} />
@@ -140,13 +221,16 @@ ${appliedCSS}` : '');
 
         <div className="note" style={{ marginTop: 14 }}>
           Фрагмент стиля клиента:
-          <div style={{ marginTop: 8, fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace', fontSize: 13 }}>
+          <div
+            style={{
+              marginTop: 8,
+              fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+              fontSize: 13,
+            }}
+          >
             {order.type === 'selector'
               ? `${order.promptCSS}`
               : `.selector { ___: ___; }`}
-          </div>
-          <div className="muted" style={{ marginTop: 8 }}>
-            Выбери правильные варианты. Изменения в текущем макете появятся только после «Проверить».
           </div>
         </div>
 
@@ -160,24 +244,17 @@ ${appliedCSS}` : '');
 
           {order.type !== 'selector' && (
             <>
-              <Select
-                value={prop}
-                onChange={setProp}
-                options={order.propertyOptions}
-                placeholder="Свойство"
-              />
-              <Select
-                value={val}
-                onChange={setVal}
-                options={order.valueOptions}
-                placeholder="Значение"
-              />
+              <Select value={prop} onChange={setProp} options={order.propertyOptions} placeholder="Свойство" />
+              <Select value={val} onChange={setVal} options={order.valueOptions} placeholder="Значение" />
             </>
           )}
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 14 }}>
-          <button className="btn" onClick={() => navigate(`/orders?section=${sid}`)}>Назад</button>
+          <button className="btn" onClick={() => navigate(`/orders?section=${sid}`)}>
+            Назад
+          </button>
+
           <button
             className="btn primary"
             onClick={onCheck}
@@ -189,9 +266,7 @@ ${appliedCSS}` : '');
 
         {toast && <div className={`toast ${toast.type}`}>{toast.text}</div>}
 
-        {isSolved && (
-          <div className="toast ok">Заказ уже закрыт. Можно вернуться к списку.</div>
-        )}
+        {isSolved && <div className="toast ok">Заказ уже закрыт.</div>}
       </div>
     </div>
   );
